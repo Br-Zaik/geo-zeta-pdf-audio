@@ -19,8 +19,17 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # UNICO CAMBIO DE ESTE ARCHIVO.
+      # Sin "with: packages", la accion instala su lista por defecto, que es
+      # "tools platform-tools". Google elimino el paquete "tools" de su
+      # repositorio, asi que sdkmanager falla con exit code 1 y el build muere
+      # aqui, antes de tocar el proyecto.
+      # Con packages: '' la accion no instala nada por su cuenta, y no hace
+      # falta que lo haga: el paso siguiente ya instala lo necesario.
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: ''
 
       - name: Install Android 16 API 36
         shell: bash
